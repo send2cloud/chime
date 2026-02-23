@@ -76,12 +76,20 @@
                     timeBubble.style.opacity = '0';
                     timeBubble.style.transform = 'scale(0.8)';
                 });
+
+                // Chime Logic for Hourly Beeps card
+                const hourlyBeepsCard = document.getElementById('hourly-beeps-card');
+                hourlyBeepsCard.addEventListener('mouseenter', () => {
+                    sound.currentTime = 0;
+                    sound.volume = 0.5;
+                    sound.play().catch(e => console.log('Audio play failed:', e));
+                });
             </script>
             <div class="version">Version 1.0.0 • Free & Open Source</div>
         </header>
 
         <section class="features">
-            <div class="feature-card">
+            <div class="feature-card" id="hourly-beeps-card">
                 <div class="feature-icon">✨</div>
                 <h3>Hourly Beeps</h3>
                 <p>Crisp, highly premium "Glass" chime exactly at the top of every hour to keep you grounded.</p>
