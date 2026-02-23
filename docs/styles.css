@@ -110,11 +110,12 @@ body {
     background: rgba(255, 255, 255, 0.08);
     color: var(--text-main);
     text-decoration: none;
-    padding: 18px 40px;
+    padding: 14px 28px;
     border-radius: 100px;
-    font-weight: 600;
+    font-weight: 500;
+    font-size: 1rem;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    margin-bottom: 24px;
+    margin-bottom: 12px;
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -150,14 +151,6 @@ body {
 }
 
 .btn-text {
-    font-size: 1.1rem;
-    font-weight: 600;
-}
-
-.btn-subtext {
-    font-size: 0.75rem;
-    color: #555;
-    margin-top: 4px;
     font-weight: 500;
 }
 
