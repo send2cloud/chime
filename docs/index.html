@@ -34,55 +34,61 @@
                 11+ • Apple Silicon & Intel</p>
             <audio id="chime-sound" src="glass-004.mp3" preload="auto"></audio>
             <script>
-                const btn = document.getElementById('download-btn');
-                const sound = document.getElementById('chime-sound');
+                document.addEventListener('DOMContentLoaded', () => {
+                    const btn = document.getElementById('download-btn');
+                    const sound = document.getElementById('chime-sound');
 
-                // Browsers block audio until the very first click on a page.
-                // This unlocks the audio element for subsequent hovers.
-                document.body.addEventListener('click', () => {
-                    sound.volume = 0;
-                    sound.play().then(() => {
-                        sound.pause();
+                    // Browsers block audio until the very first click on a page.
+                    // This unlocks the audio element for subsequent hovers.
+                    document.body.addEventListener('click', () => {
+                        sound.volume = 0;
+                        sound.play().then(() => {
+                            sound.pause();
+                            sound.currentTime = 0;
+                            sound.volume = 0.5;
+                        }).catch(e => { });
+                    }, { once: true });
+
+                    btn.addEventListener('mouseenter', () => {
                         sound.currentTime = 0;
-                        sound.volume = 0.5;
-                    }).catch(e => { });
-                }, { once: true });
+                        sound.volume = 0.5; // keep it subtle
+                        sound.play().catch(e => console.log('Audio play failed:', e));
+                    });
 
-                btn.addEventListener('mouseenter', () => {
-                    sound.currentTime = 0;
-                    sound.volume = 0.5; // keep it subtle
-                    sound.play().catch(e => console.log('Audio play failed:', e));
-                });
+                    // Floating time bubble logic for Visual Cues card
+                    const visualCueCard = document.getElementById('visual-cue-card');
+                    if (visualCueCard) {
+                        const timeBubble = document.createElement('div');
+                        timeBubble.className = 'cursor-time-bubble';
+                        document.body.appendChild(timeBubble);
 
-                // Floating time bubble logic for Visual Cues card
-                const visualCueCard = document.getElementById('visual-cue-card');
-                const timeBubble = document.createElement('div');
-                timeBubble.className = 'cursor-time-bubble';
-                document.body.appendChild(timeBubble);
+                        visualCueCard.addEventListener('mouseenter', () => {
+                            const now = new Date();
+                            timeBubble.innerText = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+                            timeBubble.style.opacity = '1';
+                            timeBubble.style.transform = 'scale(1)';
+                        });
 
-                visualCueCard.addEventListener('mouseenter', () => {
-                    const now = new Date();
-                    timeBubble.innerText = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-                    timeBubble.style.opacity = '1';
-                    timeBubble.style.transform = 'scale(1)';
-                });
+                        visualCueCard.addEventListener('mousemove', (e) => {
+                            timeBubble.style.left = (e.clientX - 70) + 'px'; // 140px width centered
+                            timeBubble.style.top = (e.clientY + 20) + 'px'; // 20px below cursor
+                        });
 
-                visualCueCard.addEventListener('mousemove', (e) => {
-                    timeBubble.style.left = (e.clientX - 70) + 'px'; // 140px width centered
-                    timeBubble.style.top = (e.clientY + 20) + 'px'; // 20px below cursor
-                });
+                        visualCueCard.addEventListener('mouseleave', () => {
+                            timeBubble.style.opacity = '0';
+                            timeBubble.style.transform = 'scale(0.8)';
+                        });
+                    }
 
-                visualCueCard.addEventListener('mouseleave', () => {
-                    timeBubble.style.opacity = '0';
-                    timeBubble.style.transform = 'scale(0.8)';
-                });
-
-                // Chime Logic for Hourly Beeps card
-                const hourlyBeepsCard = document.getElementById('hourly-beeps-card');
-                hourlyBeepsCard.addEventListener('mouseenter', () => {
-                    sound.currentTime = 0;
-                    sound.volume = 0.5;
-                    sound.play().catch(e => console.log('Audio play failed:', e));
+                    // Chime Logic for Hourly Beeps card
+                    const hourlyBeepsCard = document.getElementById('hourly-beeps-card');
+                    if (hourlyBeepsCard) {
+                        hourlyBeepsCard.addEventListener('mouseenter', () => {
+                            sound.currentTime = 0;
+                            sound.volume = 0.5;
+                            sound.play().catch(e => console.log('Audio play failed:', e));
+                        });
+                    }
                 });
             </script>
             <div class="version">Version 1.0.0 • Free & Open Source</div>
